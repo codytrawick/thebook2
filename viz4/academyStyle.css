@@ -1,0 +1,22 @@
+svg {
+  border: 1px solid black;
+}
+
+path {
+  stroke: rgba(100,100,100,0.6);
+  stroke-width: 2px;
+  fill: none
+}
+
+path.link--hover {
+  stroke: rgba(75, 75, 75, 0.8);
+  stroke-width: 2px;
+}
+
+svg image {
+  clip-path: url(#studentNode)
+}
+
+#logo {
+  clip-path: none;
+}

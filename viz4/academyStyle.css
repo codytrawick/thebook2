@@ -3,7 +3,7 @@ svg {
 }
 
 path {
-  stroke: rgba(100,100,100,0.6);
+  stroke: rgba(100,100,100,0.1);
   stroke-width: 2px;
   fill: none
 }

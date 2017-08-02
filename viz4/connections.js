@@ -10,6 +10,8 @@ var NODERADIUS = 30;
 
 // console.log(d3.curveBundle);
 
+var errorOutput = d3.select("#errors");
+
 svg.select("#studentNode")
   .append("circle")
   .attr("cx", NODERADIUS)
@@ -67,7 +69,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     if (nodesById[d.Name] == undefined) {
       d.fullName = d.Name;
       nodesById[d.fullName] = d;
-      d.theta = TWOPI * c / 20;
+      d.theta = TWOPI * c / 21;
       d.r = CIRCLERADIUS * .75;
       // d.x = width / 2 + (NODERADIUS * 1.25 * (i + .5) * Math.pow(-1, i));
       // d.y = 600;
@@ -87,7 +89,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     if (nodesById[d.Name] == undefined) {
       d.fullName = d.Name;
       nodesById[d.fullName] = d;
-      d.theta = TWOPI * c / 21;
+      d.theta = TWOPI * c / 17;
       d.r = CIRCLERADIUS * .75;
       // d.x = width / 2 + (NODERADIUS * 1.25 * (i + .5) * Math.pow(-1, i));
       // d.y = 600;
@@ -107,7 +109,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     if (nodesById[d.Name] == undefined) {
       d.fullName = d.Name;
       nodesById[d.fullName] = d;
-      d.theta = TWOPI * c / 8;
+      d.theta = TWOPI * c / 7;
       d.r = CIRCLERADIUS * .5;
       // d.x = width / 2 + (NODERADIUS * 1.25 * (i + .5) * Math.pow(-1, i));
       // d.y = 600;
@@ -181,11 +183,17 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
       linkUpdate.classed("link--hover", false)
     })
     .on("error", function(d) {
+      d3.event.stopPropagation();
       d3.select(this)
-        .on("error", null)
+        .on("error", function(d) {
+          errorOutput.append("p")
+            .text(d[0])
+        })
         .attr("xkit:href", function(d) { return "../Photos/" + d[0] + ".jpg"})
       // return "this.onerror = null; this.href='Cody Trawick.png';";
     })
+    .append("title")
+      .text(function(d) { return d[0]; })
 
     var linkSelect = d3.select("#links").selectAll("path")
       .data(links);
@@ -214,6 +222,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
         .attr("d", arcPath);
 
    var linkUpdate = d3.selectAll("path");
+
 
 
 }

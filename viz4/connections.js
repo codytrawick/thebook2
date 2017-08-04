@@ -12,6 +12,8 @@ var NODERADIUS = 30;
 
 var errorOutput = d3.select("#errors");
 
+var labelNodes = [];
+
 svg.select("#studentNode")
   .append("circle")
   .attr("cx", NODERADIUS)
@@ -48,7 +50,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     if (nodesById[d.Name] == undefined) {
       d.fullName = d.Name;
       nodesById[d.fullName] = d;
-      d.theta = TWOPI * c / students.length;
+      d.theta = TWOPI * c / 31;
       d.r = CIRCLERADIUS * 1.5;
       // d.x = width / 2 + (NODERADIUS * 1.25 * (i + .5) * Math.pow(-1, i));
       // d.y = 600;
@@ -69,7 +71,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     if (nodesById[d.Name] == undefined) {
       d.fullName = d.Name;
       nodesById[d.fullName] = d;
-      d.theta = TWOPI * c / 21;
+      d.theta = TWOPI * c / 19;
       d.r = CIRCLERADIUS * .75;
       // d.x = width / 2 + (NODERADIUS * 1.25 * (i + .5) * Math.pow(-1, i));
       // d.y = 600;
@@ -82,6 +84,13 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
         links.push({"source":nodesById[d.Name], "target":s});
       }
     })
+  })
+
+  labelNodes.push({
+    "name":"Honeywell Huddle",
+    "date":"June 14",
+    "x":width * 0.2,
+    "y":height * 0.2
   })
 
   huddle2.forEach(function(d) {
@@ -104,6 +113,13 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     })
   })
 
+  labelNodes.push({
+    "name":"Honeywell Huddle",
+    "date":"July 18",
+    "x":width * 0.2,
+    "y":height * 0.8
+  })
+
   shopTalk.forEach(function(d) {
     d.Name = d["First Name"] + " " + d["Last Name"];
     if (nodesById[d.Name] == undefined) {
@@ -122,6 +138,13 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
         links.push({"source":nodesById[d.Name], "target":s});
       }
     })
+  })
+
+  labelNodes.push({
+    "name":"Shop Talk",
+    "date":"June 21",
+    "x":width * 0.8,
+    "y":height * 0.2
   })
 
   for (var i = 0; i < students.length; i++) {
@@ -145,6 +168,13 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
     })
   });
 
+  labelNodes.push({
+    "name":"Power Meals",
+    "date":"It Varies",
+    "x":width * 0.8,
+    "y":height * 0.8
+  })
+
   powerMeals.forEach(function(pM) {
     pM.forEach(function(d, i) {
       for (var j = 0; j < i; j++) {
@@ -164,6 +194,7 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
   var nodeData = Object.entries(nodesById);
   var nodeSelect = d3.select("#nodes").selectAll("g")
     .data(nodeData);
+
 
   nodeSelect.enter()
     .append("g")
@@ -223,6 +254,24 @@ function parseResults(error, students, mentors, huddle1, huddle2, shopTalk, powe
 
    var linkUpdate = d3.selectAll("path");
 
+   labelNodes.forEach(function(lN) {
+     let g = d3.select("#nodes")
+      .append("g")
+      .attr("transform", "translate(" + [lN.x, lN.y] + ")")
+      .attr("text-anchor", "middle")
+
+    g.append("circle")
+      .attr("r", NODERADIUS * 3)
+      .classed("label", true)
+
+    g.append("text")
+      .text(lN.name)
+      .classed("strong", true)
+
+    g.append("text")
+      .text(lN.date)
+      .attr("y", 20)
+   })
 
 
 }
